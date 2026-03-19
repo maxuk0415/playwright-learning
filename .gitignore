@@ -1,0 +1,28 @@
+# Build output
+bin/
+obj/
+
+# Test results & reports
+allure-results/
+allure-report/
+allure-history/
+screenshots/
+videos/
+TestResults/
+*.trx
+
+# .NET
+*.user
+*.suo
+.vs/
+*.DotSettings.user
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Sensitive config — never commit real credentials
+# appsettings.local.json

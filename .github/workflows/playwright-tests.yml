@@ -1,0 +1,123 @@
+name: Automation Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Allow deploying Allure report to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  # ─── Job 1: API Tests ──────────────────────────────────────────────────────
+  api-tests:
+    name: API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore & Build
+        run: dotnet build AutomationLearning.Tests/AutomationLearning.Tests.csproj
+
+      - name: Run API tests
+        env:
+          ApiKey: ${{ secrets.REQRES_API_KEY }}
+        run: |
+          dotnet test AutomationLearning.Tests/AutomationLearning.Tests.csproj \
+            --filter "Category=API" \
+            --no-build \
+            --logger "trx;LogFileName=api-results.trx"
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-api
+          path: AutomationLearning.Tests/bin/Debug/net10.0/allure-results/
+
+  # ─── Job 2: UI Tests ───────────────────────────────────────────────────────
+  ui-tests:
+    name: UI Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore & Build
+        run: dotnet build AutomationLearning.Tests/AutomationLearning.Tests.csproj
+
+      - name: Install Playwright browsers
+        run: pwsh AutomationLearning.Tests/bin/Debug/net10.0/playwright.ps1 install --with-deps chromium
+
+      - name: Run UI tests (headless)
+        run: |
+          dotnet test AutomationLearning.Tests/AutomationLearning.Tests.csproj \
+            --filter "Category=UI" \
+            --no-build \
+            --logger "trx;LogFileName=ui-results.trx"
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: failure-screenshots
+          path: AutomationLearning.Tests/bin/Debug/net10.0/screenshots/
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-ui
+          path: AutomationLearning.Tests/bin/Debug/net10.0/allure-results/
+
+  # ─── Job 3: Publish Allure Report ──────────────────────────────────────────
+  publish-report:
+    name: Publish Allure Report
+    runs-on: ubuntu-latest
+    needs: [api-tests, ui-tests]
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download API results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-api
+          path: allure-results/
+
+      - name: Download UI results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-ui
+          path: allure-results/
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
