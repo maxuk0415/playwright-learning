@@ -1,7 +1,7 @@
 using Allure.NUnit;
 using Allure.NUnit.Attributes;
 using AutomationLearning.Tests.Helpers;
-using AutomationLearning.Tests.Pages;
+using AutomationLearning.Core.Pages;
 
 namespace AutomationLearning.Tests.Tests.UI;
 

@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using Allure.NUnit;
 using Allure.NUnit.Attributes;
 using AutomationLearning.Tests.Helpers;
-using AutomationLearning.Tests.Models;
+using AutomationLearning.Core.Models;
 
 namespace AutomationLearning.Tests.Tests.API;
 

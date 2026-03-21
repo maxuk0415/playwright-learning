@@ -1,4 +1,4 @@
-namespace AutomationLearning.Tests.Config;
+namespace AutomationLearning.Core.Config;
 
 public class TestSettings
 {

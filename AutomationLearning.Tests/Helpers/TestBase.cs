@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using AutomationLearning.Tests.Config;
+using AutomationLearning.Core.Config;
 
 namespace AutomationLearning.Tests.Helpers;
 

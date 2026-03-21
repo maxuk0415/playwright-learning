@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace AutomationLearning.Tests.Pages;
+namespace AutomationLearning.Core.Pages;
 
 /// <summary>
 /// Page Object for the SauceDemo login page.
@@ -8,7 +8,6 @@ namespace AutomationLearning.Tests.Pages;
 /// </summary>
 public class LoginPage(IPage page) : BasePage(page)
 {
-    // Selectors — using data-test attributes (most stable selector strategy)
     private ILocator UsernameInput => Page.Locator("[data-test='username']");
     private ILocator PasswordInput => Page.Locator("[data-test='password']");
     private ILocator LoginButton => Page.Locator("[data-test='login-button']");

@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace AutomationLearning.Tests.Pages;
+namespace AutomationLearning.Core.Pages;
 
 /// <summary>
 /// Page Object for the SauceDemo checkout complete page.
@@ -9,16 +9,12 @@ namespace AutomationLearning.Tests.Pages;
 /// </summary>
 public class CheckoutCompletePage(IPage page) : BasePage(page)
 {
-    // Step two (review) elements
     private ILocator FinishButton => Page.Locator("[data-test='finish']");
     private ILocator SummaryTotal => Page.Locator(".summary_total_label");
     private ILocator SummaryItems => Page.Locator(".cart_item");
-
-    // Confirmation elements
     private ILocator ConfirmationHeader => Page.Locator("[data-test='complete-header']");
     private ILocator BackHomeButton => Page.Locator("[data-test='back-to-products']");
 
-    // Step two helpers
     public async Task<bool> IsReviewLoaded() =>
         await FinishButton.IsVisibleAsync();
 
@@ -31,7 +27,6 @@ public class CheckoutCompletePage(IPage page) : BasePage(page)
     public async Task FinishCheckout() =>
         await FinishButton.ClickAsync();
 
-    // Confirmation helpers
     public async Task<bool> IsOrderConfirmed() =>
         await ConfirmationHeader.IsVisibleAsync();
 

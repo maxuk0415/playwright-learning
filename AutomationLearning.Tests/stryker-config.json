@@ -1,0 +1,22 @@
+{
+  "stryker-config": {
+    "project": "../AutomationLearning.Core/AutomationLearning.Core.csproj",
+    "reporters": ["html", "progress"],
+    "mutation-level": "Standard",
+    "target-framework": "net10.0",
+    "thresholds": {
+      "high": 80,
+      "low": 60,
+      "break": 50
+    },
+    "mutate": [
+      "../AutomationLearning.Core/Pages/LoginPage.cs",
+      "../AutomationLearning.Core/Pages/InventoryPage.cs",
+      "../AutomationLearning.Core/Pages/CartPage.cs",
+      "../AutomationLearning.Core/Pages/CheckoutInfoPage.cs",
+      "../AutomationLearning.Core/Pages/CheckoutCompletePage.cs",
+      "../AutomationLearning.Core/Models/UserModels.cs"
+    ],
+    "test-case-filter": "Category=Login|Category=Inventory|Category=Checkout|Category=API"
+  }
+}

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Configuration;
-using AutomationLearning.Tests.Config;
+using AutomationLearning.Core.Config;
 
 namespace AutomationLearning.Tests.Helpers;
 
@@ -18,7 +18,7 @@ public class ApiTestBase
         var config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false)
-            .AddEnvironmentVariables()   // CI/CD secrets override appsettings.json
+            .AddEnvironmentVariables()
             .Build();
 
         Settings = config.Get<TestSettings>() ?? new TestSettings();

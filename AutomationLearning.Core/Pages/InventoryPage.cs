@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace AutomationLearning.Tests.Pages;
+namespace AutomationLearning.Core.Pages;
 
 /// <summary>
 /// Page Object for the SauceDemo product inventory page.
