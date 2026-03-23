@@ -9,12 +9,8 @@
       "break": 50
     },
     "mutate": [
-      "Pages/LoginPage.cs",
-      "Pages/InventoryPage.cs",
-      "Pages/CartPage.cs",
-      "Pages/CheckoutInfoPage.cs",
-      "Pages/CheckoutCompletePage.cs",
-      "Models/UserModels.cs"
-    ]
+      "Validators/CheckoutValidator.cs"
+    ],
+    "test-case-filter": "Category=Unit"
   }
 }
